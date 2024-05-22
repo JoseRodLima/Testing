@@ -1,0 +1,61 @@
+---
+- name: Launch Kubernetes Job in Minikube
+  hosts: localhost
+  tasks:
+    - name: Create Kubernetes Job
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: batch/v1
+          kind: Job
+          metadata:
+            name: syft
+            namespace: default
+          spec:
+            ttlSecondsAfterFinished: 60
+            template:
+              metadata:
+                labels:
+                  app: syft
+              spec:
+                containers:
+                  - name: syft
+                    image: anchore/syft:latest
+                    args:
+                      - alpine
+                      - -o cyclonedx-json
+                restartPolicy: Never
+    - name: Wait till the Object is created
+      kubernetes.core.k8s_info:
+        kind: Pod
+        wait: yes
+        name: pod-not-yet-created
+        namespace: default
+        wait_sleep: 10
+        wait_timeout: 20
+    - name: Get a list of all pods from any namespace
+      kubernetes.core.k8s_info:
+        kind: Pod
+        namespace: default
+      register: pod_list
+    - set_fact:
+        pod_name: "{{ pod_list.resources[0].metadata.name }}"
+    - name: Get log from pod
+      kubernetes.core.k8s_log:
+        kind: Pod
+        name: "{{ pod_name }}"
+        namespace: default
+      register: log_output
+    - name: Extract log content
+      set_fact:
+        log_content: "{{ log_output.log }}"
+    - name: Generate random hexadecimal string
+      ansible.builtin.set_fact:
+        hex_string: "{{ query('community.general.random_string', upper=false, lower=false, length=1, chars=hex_chars) }}"
+      vars:
+        hex_chars: '0123456789ABCDEF'
+    - name: Write log content to file
+      copy:
+        content: "{{ log_content | regex_replace('^.*?(\\{.*\\})$', '\\1') }}"
+        dest: "/home/ubuntu/Desktop/outputs/SBOMs/SBOM-{{ hex_string }}.txt"
+
