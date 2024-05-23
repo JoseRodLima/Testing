@@ -2,8 +2,45 @@
 - name: Launch Kubernetes Job in Minikube
   hosts: localhost
   tasks:
+    - name: Add Kubernetes configuration to file
+      lineinfile:
+        path: /tmp/kube-config
+        line: |
+          apiVersion: v1
+          clusters:
+          - cluster:
+              certificate-authority: /home/ubuntu/.minikube/ca.crt
+              extensions:
+              - extension:
+                  last-update: Thu, 23 May 2024 12:49:13 WEST
+                  provider: minikube.sigs.k8s.io
+                  version: v1.32.0
+                name: cluster_info
+              server: https://192.168.49.2:8443
+            name: minikube
+          contexts:
+          - context:
+              cluster: minikube
+              extensions:
+              - extension:
+                  last-update: Thu, 23 May 2024 12:49:13 WEST
+                  provider: minikube.sigs.k8s.io
+                  version: v1.32.0
+                name: context_info
+              namespace: default
+              user: minikube
+            name: minikube
+          current-context: minikube
+          kind: Config
+          preferences: {}
+          users:
+          - name: minikube
+            user:
+              client-certificate: /home/ubuntu/.minikube/profiles/minikube/client.crt
+              client-key: /home/ubuntu/.minikube/profiles/minikube/client.key
     - name: Create Kubernetes Job
       kubernetes.core.k8s:
+        kubeconfig: /tmp/kube-config
         state: present
         definition:
           apiVersion: batch/v1
@@ -27,6 +64,7 @@
                 restartPolicy: Never
     - name: Wait till the Object is created
       kubernetes.core.k8s_info:
+        kubeconfig: /tmp/kube-config
         kind: Pod
         wait: yes
         name: pod-not-yet-created
@@ -35,6 +73,7 @@
         wait_timeout: 20
     - name: Get a list of all pods from any namespace
       kubernetes.core.k8s_info:
+        kubeconfig: /tmp/kube-config
         kind: Pod
         namespace: default
       register: pod_list
@@ -42,6 +81,7 @@
         pod_name: "{{ pod_list.resources[0].metadata.name }}"
     - name: Get log from pod
       kubernetes.core.k8s_log:
+        kubeconfig: /tmp/kube-config
         kind: Pod
         name: "{{ pod_name }}"
         namespace: default
@@ -51,6 +91,7 @@
         log_content: "{{ log_output.log }}"
     - name: Generate random hexadecimal string
       ansible.builtin.set_fact:
+        kubeconfig: /tmp/kube-config
         hex_string: "{{ query('community.general.random_string', upper=false, lower=false, length=1, chars=hex_chars) }}"
       vars:
         hex_chars: '0123456789ABCDEF'
