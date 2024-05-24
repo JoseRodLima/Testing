@@ -10,7 +10,7 @@
           kind: Job
           metadata:
             name: syft
-            namespace: default
+            namespace: awx
             template:
               metadata:
                 labels:
@@ -21,5 +21,4 @@
                     image: anchore/syft:latest
                     args:
                       - alpine
-                      - -o cyclonedx-json
                 restartPolicy: Never
