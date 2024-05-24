@@ -1,0 +1,67 @@
+---
+- name: Launch Kubernetes Job in Minikube
+  hosts: localhost
+  tasks:
+    - name: Creating a new directory
+      file:
+        path: "~/.kube"
+        state: directory
+
+    - name: Creating a file with content
+      copy:
+        dest: "~/.kube/config"
+        content: |
+          apiVersion: v1
+          clusters:
+          - cluster:
+              certificate-authority: /home/ubuntu/.minikube/ca.crt
+              extensions:
+              - extension:
+                  last-update: Fri, 24 May 2024 10:40:51 WEST
+                  provider: minikube.sigs.k8s.io
+                  version: v1.32.0
+                name: cluster_info
+              server: https://192.168.49.2:8443
+            name: minikube
+          contexts:
+          - context:
+              cluster: minikube
+              extensions:
+              - extension:
+                  last-update: Fri, 24 May 2024 10:40:51 WEST
+                  provider: minikube.sigs.k8s.io
+                  version: v1.32.0
+                name: context_info
+              namespace: default
+              user: minikube
+            name: minikube
+          current-context: minikube
+          kind: Config
+          preferences: {}
+          users:
+          - name: minikube
+            user:
+              client-certificate: /home/ubuntu/.minikube/profiles/minikube/client.crt
+              client-key: /home/ubuntu/.minikube/profiles/minikube/client.key
+
+    - name: Create Kubernetes Job
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: batch/v1
+          kind: Job
+          metadata:
+            name: syft
+            namespace: default
+          spec:
+            template:
+              metadata:
+                labels:
+                  app: syft
+              spec:
+                containers:
+                - name: syft
+                  image: anchore/syft:latest
+                  args:
+                    - alpine
+            restartPolicy: Never
