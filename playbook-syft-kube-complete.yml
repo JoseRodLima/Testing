@@ -7,31 +7,6 @@
         path: "~/.kube"
         state: directory
 
-    - name: Creating a file with content
-      copy:
-        dest: "~/.kube/config"
-        content: |
-          apiVersion: v1
-          clusters:
-          - cluster:
-              certificate-authority-data: MIIDBjCCAe6gAwIBAgIBATANBgkqhkiG9w0BAQsFADAVMRMwEQYDVQQDEwptaW5pa3ViZUNBMB4XDTI0MDQxMTE3MzczMloXDTM0MDQxMDE3MzczMlowFTETMBEGA1UEAxMKbWluaWt1YmVDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKzGlCJ+s8XjQDX3jm1GdEvuoJUwUBqY7q2fk0PKKnlPajBDTAPlWN3ovm2RqvKptaOmO5C0e0pzQVz3Dt4SpkBvet9SWNWagcPye82DdJQ/3gSwJUP+R12Xi67w1lcOIoNrhIrUe5S3/dZyQNJGIb5z0A4K26Z74I1RQ5kKgVGixvUBWpf/VjK2WLVDvQ10QIl0Ntt2LX1JEa4RtwdIywpTwHfiCbZv9jRnGMdV7rGimn4EWnVn8/5IGVVFMGMO9vALHJY7XmKHQoqawFfBk6L8aT/foJRlBvLC6bStw8lJFxcU66H0qEcxfRTATO8VNVSfGa7mKioo0DU7tnKsMScCAwEAAaNhMF8wDgYDVR0PAQH/BAQDAgKkMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcDATAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBSPSMMnB1MwcVlcqiMA1OD19oMdUjANBgkqhkiG9w0BAQsFAAOCAQEAa1rqQLuuftsxDFjlI91Os5DTJ8cgwjScuKFsif1jFlvLTihCZ3tdoGa1DV/YZgSjuvXk/IBoz2KIcTcrIOa5FfU5fab7B0aYlcPgWc+qyeJ1xYAiGRt25O2aIPUU7cZhNmCmXza4F8c2jIozkW5VVDe733VqcmRljOGmaqVTjlplJVhyV3H3gFGWXZhc81mLO1E+nqYZWxzLntmtroU5a8YTQ9zDzw4SmM0xzJI8AbUa3bbprSHnFXfd0PiTXoOFHLalPZao9bpS38ipIRNq8//qa5WpEv70rIVcG0FkdhQGZviJ1RRfD77H6Q6b2ULgN3Dn9FhII2Ew55+UlkGYAg==
-              server: https://192.168.49.2:8443
-            name: minikube
-          contexts:
-          - context:
-              cluster: minikube        
-              namespace: default
-              user: minikube
-            name: minikube
-          current-context: minikube
-          kind: Config
-          preferences: {}
-          users:
-          - name: minikube
-            user:
-              client-certificate-data: MIIDITCCAgmgAwIBAgIBAjANBgkqhkiG9w0BAQsFADAVMRMwEQYDVQQDEwptaW5pa3ViZUNBMB4XDTI0MDQxMTE3MzczMloXDTI3MDQxMjE3MzczMlowMTEXMBUGA1UEChMOc3lzdGVtOm1hc3RlcnMxFjAUBgNVBAMTDW1pbmlrdWJlLXVzZXIwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDuThbyx92TMohdbCLiA24PP17FueqMxeuQg2S8TSKluKO6+VJQy+mBBoJqbzUZjOLxXmIsBeEmc0mmOBfQIIrR4mW5rzhDTkWRfJhkTjZmATX+6g3ixF6FM0wW6wX/MpuPJtPBvhUMLg3WHhNagzZVNPuNo6UcVePswJ/sqDhBC8hEui3SLl8nrwxLEQuOoNxt3ldRIbJNyVR8vY6uTb0H6zvPzdEWkS08RW3f5/3Uxm3mwvTqsRAPrHJ1E5xvoPWTrFnwkvZ95EXhovzcE0tkLdHi32BB6zaJIo/J8d5Yt3UJjuWP53nPbqdIQEIrC+199lyQ+Ib6aMgDy2jani21AgMBAAGjYDBeMA4GA1UdDwEB/wQEAwIFoDAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDAYDVR0TAQH/BAIwADAfBgNVHSMEGDAWgBSPSMMnB1MwcVlcqiMA1OD19oMdUjANBgkqhkiG9w0BAQsFAAOCAQEAf7AnNJubDGIdaVwgOfb/ZGaX4DFwuDT/0qux0Z73g2NngZ0+QjOF8yjzPWxrnIUFklE2R4cW9DsiR0vUBgeNctcaM+MyoSZ5EqY1OmjLrVoabspO5AQdjPuZ/N6qnzt0UayNEz2RmAVIGUugjnzS+BoRXZ1DoBshVufVzuSIiycz/++WwxDM7oddyAx+xedR/SgFi69Rg1tPbUJp4BqdQt0pwi7WzwKWx6YC+wGfya+YXuchA34nvfXFiYcRU25d30lyEm2mFXUd54+QNtK9C8Bb/T3f56jXLxUTbiH/c7YiwfG0KOQWyeE8b8+TkqAHNmwRDqYS+RJVQlFTarsjKg==
-              client-key-data: MIIEpAIBAAKCAQEA7k4W8sfdkzKIXWwi4gNuDz9exbnqjMXrkINkvE0ipbijuvlSUMvpgQaCam81GYzi8V5iLAXhJnNJpjgX0CCK0eJlua84Q05FkXyYZE42ZgE1/uoN4sRehTNMFusF/zKbjybTwb4VDC4N1h4TWoM2VTT7jaOlHFXj7MCf7Kg4QQvIRLot0i5fJ68MSxELjqDcbd5XUSGyTclUfL2Ork29B+s7z83RFpEtPEVt3+f91MZt5sL06rEQD6xydROcb6D1k6xZ8JL2feRF4aL83BNLZC3R4t9gQes2iSKPyfHeWLd1CY7lj+d5z26nSEBCKwvtffZckPiG+mjIA8to2p4ttQIDAQABAoIBADK4oj/IdIvI/KdNxdrvOfS62zQgjyCpW6slnEJL9KzrMMYyHOgfjrKsrQN0agvnJcKUATc3hSWG8k0TsVXWJ1Xm5xnvhn0k4r/FkjX/Q6rQZSq9rHjwrOGS+oYCPgOERQHiFL4u9BHkl4NUYXApb14Rad1K0HDIgzu4ABIB9/831qEKeqD8HtWo0Fe4Ki9vSC8r75BUIyGm4Qv3uZAKGHwNFDxBUXF9bIXqJoJVmsByZUYVjE6cohirXo7721pSId/jxAvaiaUbn5RZmEMModq7pPgZpr3t5jspJvGPPT1oDCeuOknC/56yQRzgol+yPiIvD+AxW1zAcbS4+w3BtT0CgYEA+eVmfnv6aLs/9upp4QGJ5zEW6fvHu4LIF2vJR4AAGbVJFque3qQbcxzrBKQYI9D7LEaQ0XLw8ecc25YF6EB5TWbEgReJ9aCyWDzqhMb57X8Phcrs1fyE+uTiy0PYCOns8UVsaJDftUn/OXpoImtwbFFNr6hGiOnp5lSecGvCFmsCgYEA9CA13jgSmdbBvlJPcVN0O5MSEmQ9p+riECRWtiUUBQd4IXuo8S8uiYTGhK4gxDq4czlVPWWjN8XoQ8hhZ1tpk2ZfyEOZCyXid6e+3OZNTmrFXbwsVdO/m2d6CQCn8PyKgk2NPujfn6Ne4N9NWwogO8aKpkdtTpM+Liy7Oa5mlF8CgYEAl4EKC8M0hQyJcjSabo0VQ3JSlxdL95YJo5F4nX2wEeYD4te34PmTns24er7V19kafrRllmZeR/q7VzH0cOOt50xX9IAF50I+/hoogMl1uxRen9nwjqejI81i5qNCNd1FBt31JMw4pNuw/fMFcWC77x+3vriB0v4mDbvdtwDN0fMCgYAHmVkT6brqfvzY58cBSA++Kv3NBMHGkFEpH3hzgwP0hB8BK9A+cbGJJlDnoGP0t782FvrIRnmmKsroETy28ul+ZRlmKnSBHFTIVLhkN+cAIeKy4EChC05TkA0EarjPj4zgMXnME4OifHtflJPb2ZzXP37hXifQ4lR1K39IdF1NEQKBgQCrgYxYeVEo4YD0iylANimVUd1uTeRzCWMGMVXTzaWt92gBWMuNl7EkLsOZfa3e4pK0OErMpnC78NtOX6BtXm54ZnmtuMQQvsGaUNf93tqfx25jvBsPlFPkVwrJstjbM+RlbTEMw/n12FqSNxwCmkPQl/74elp9bB1TF3RDvY7Z8g==
-
     - name: Create Kubernetes Job
       kubernetes.core.k8s:
         state: present
