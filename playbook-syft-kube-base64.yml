@@ -52,3 +52,4 @@
                   image: anchore/syft:latest
                   args:
                     - alpine
+                restartPolicy: Never
