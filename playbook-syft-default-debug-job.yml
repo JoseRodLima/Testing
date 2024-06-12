@@ -56,7 +56,7 @@
     - name: Wait till the Object is created
       kubernetes.core.k8s_info:
         kubeconfig: ~/.kube/config
-        kind: Pod
+        kind: Job
         wait: yes
         name: pod-not-yet-created
         namespace: awx
@@ -65,7 +65,7 @@
     - name: Get log from pod
       kubernetes.core.k8s_log:
         kubeconfig: ~/.kube/config
-        kind: Pod
+        kind: Job
         name: "syft"
         namespace: awx
       register: log_output
