@@ -51,8 +51,7 @@
                 - name: syft
                   image: anchore/syft:latest
                   args:
-                    - alpine
-                    - -o cyclonedx-json
+                    - alpine -o cyclonedx-json
                 restartPolicy: Never
     - name: Wait till the Object is created
       kubernetes.core.k8s_info:
