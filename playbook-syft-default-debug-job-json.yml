@@ -1,0 +1,75 @@
+---
+- name: Launch Kubernetes Job in Minikube
+  hosts: all
+  tasks:
+    - name: Creating a new directory
+      file:
+        path: "~/.kube"
+        state: directory
+
+    - name: Creating a file with content
+      copy:
+        dest: "~/.kube/config"
+        content: |
+          apiVersion: v1
+          clusters:
+          - cluster:
+              certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCakNDQWU2Z0F3SUJBZ0lCQVRBTkJna3Foa2lHOXcwQkFRc0ZBREFWTVJNd0VRWURWUVFERXdwdGFXNXAKYTNWaVpVTkJNQjRYRFRJME1EUXhNVEUzTXpjek1sb1hEVE0wTURReE1ERTNNemN6TWxvd0ZURVRNQkVHQTFVRQpBeE1LYldsdWFXdDFZbVZEUVRDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUJBS3pHCmxDSitzOFhqUURYM2ptMUdkRXZ1b0pVd1VCcVk3cTJmazBQS0tubFBhakJEVEFQbFdOM292bTJScXZLcHRhT20KTzVDMGUwcHpRVnozRHQ0U3BrQnZldDlTV05XYWdjUHllODJEZEpRLzNnU3dKVVArUjEyWGk2N3cxbGNPSW9OcgpoSXJVZTVTMy9kWnlRTkpHSWI1ejBBNEsyNlo3NEkxUlE1a0tnVkdpeHZVQldwZi9WaksyV0xWRHZRMTBRSWwwCk50dDJMWDFKRWE0UnR3ZEl5d3BUd0hmaUNiWnY5alJuR01kVjdyR2ltbjRFV25WbjgvNUlHVlZGTUdNTzl2QUwKSEpZN1htS0hRb3Fhd0ZmQms2TDhhVC9mb0pSbEJ2TEM2YlN0dzhsSkZ4Y1U2NkgwcUVjeGZSVEFUTzhWTlZTZgpHYTdtS2lvbzBEVTd0bktzTVNjQ0F3RUFBYU5oTUY4d0RnWURWUjBQQVFIL0JBUURBZ0trTUIwR0ExVWRKUVFXCk1CUUdDQ3NHQVFVRkJ3TUNCZ2dyQmdFRkJRY0RBVEFQQmdOVkhSTUJBZjhFQlRBREFRSC9NQjBHQTFVZERnUVcKQkJTUFNNTW5CMU13Y1ZsY3FpTUExT0QxOW9NZFVqQU5CZ2txaGtpRzl3MEJBUXNGQUFPQ0FRRUFhMXJxUUx1dQpmdHN4REZqbEk5MU9zNURUSjhjZ3dqU2N1S0ZzaWYxakZsdkxUaWhDWjN0ZG9HYTFEVi9ZWmdTanV2WGsvSUJvCnoyS0ljVGNySU9hNUZmVTVmYWI3QjBhWWxjUGdXYytxeWVKMXhZQWlHUnQyNU8yYUlQVVU3Y1poTm1DbVh6YTQKRjhjMmpJb3prVzVWVkRlNzMzVnFjbVJsak9HbWFxVlRqbHBsSlZoeVYzSDNnRkdXWFpoYzgxbUxPMUUrbnFZWgpXeHpMbnRtdHJvVTVhOFlUUTl6RHp3NFNtTTB4ekpJOEFiVWEzYmJwclNIbkZYZmQwUGlUWG9PRkhMYWxQWmFvCjlicFMzOGlwSVJOcTgvL3FhNVdwRXY3MHJJVmNHMEZrZGhRR1p2aUoxUlJmRDc3SDZRNmIyVUxnTjNEbjlGaEkKSTJFdzU1K1Vsa0dZQWc9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+              server: https://192.168.49.2:8443
+            name: minikube
+          contexts:
+          - context:
+              cluster: minikube        
+              namespace: default
+              user: minikube
+            name: minikube
+          current-context: minikube
+          kind: Config
+          preferences: {}
+          users:
+          - name: minikube
+            user:
+              client-certificate-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURJVENDQWdtZ0F3SUJBZ0lCQWpBTkJna3Foa2lHOXcwQkFRc0ZBREFWTVJNd0VRWURWUVFERXdwdGFXNXAKYTNWaVpVTkJNQjRYRFRJME1EUXhNVEUzTXpjek1sb1hEVEkzTURReE1qRTNNemN6TWxvd01URVhNQlVHQTFVRQpDaE1PYzNsemRHVnRPbTFoYzNSbGNuTXhGakFVQmdOVkJBTVREVzFwYm1scmRXSmxMWFZ6WlhJd2dnRWlNQTBHCkNTcUdTSWIzRFFFQkFRVUFBNElCRHdBd2dnRUtBb0lCQVFEdVRoYnl4OTJUTW9oZGJDTGlBMjRQUDE3RnVlcU0KeGV1UWcyUzhUU0tsdUtPNitWSlF5K21CQm9KcWJ6VVpqT0x4WG1Jc0JlRW1jMG1tT0JmUUlJclI0bVc1cnpoRApUa1dSZkpoa1RqWm1BVFgrNmczaXhGNkZNMHdXNndYL01wdVBKdFBCdmhVTUxnM1dIaE5hZ3paVk5QdU5vNlVjClZlUHN3Si9zcURoQkM4aEV1aTNTTGw4bnJ3eExFUXVPb054dDNsZFJJYkpOeVZSOHZZNnVUYjBINnp2UHpkRVcKa1MwOFJXM2Y1LzNVeG0zbXd2VHFzUkFQckhKMUU1eHZvUFdUckZud2t2Wjk1RVhob3Z6Y0UwdGtMZEhpMzJCQgo2emFKSW8vSjhkNVl0M1VKanVXUDUzblBicWRJUUVJckMrMTk5bHlRK0liNmFNZ0R5MmphbmkyMUFnTUJBQUdqCllEQmVNQTRHQTFVZER3RUIvd1FFQXdJRm9EQWRCZ05WSFNVRUZqQVVCZ2dyQmdFRkJRY0RBUVlJS3dZQkJRVUgKQXdJd0RBWURWUjBUQVFIL0JBSXdBREFmQmdOVkhTTUVHREFXZ0JTUFNNTW5CMU13Y1ZsY3FpTUExT0QxOW9NZApVakFOQmdrcWhraUc5dzBCQVFzRkFBT0NBUUVBZjdBbk5KdWJER0lkYVZ3Z09mYi9aR2FYNERGd3VEVC8wcXV4CjBaNzNnMk5uZ1owK1FqT0Y4eWp6UFd4cm5JVUZrbEUyUjRjVzlEc2lSMHZVQmdlTmN0Y2FNK015b1NaNUVxWTEKT21qTHJWb2Fic3BPNUFRZGpQdVovTjZxbnp0MFVheU5FejJSbUFWSUdVdWdqbnpTK0JvUlhaMURvQnNoVnVmVgp6dVNJaXljei8rK1d3eERNN29kZHlBeCt4ZWRSL1NnRmk2OVJnMXRQYlVKcDRCcWRRdDBwd2k3V3p3S1d4NllDCit3R2Z5YStZWHVjaEEzNG52ZlhGaVljUlUyNWQzMGx5RW0ybUZYVWQ1NCtRTnRLOUM4QmIvVDNmNTZqWEx4VVQKYmlIL2M3WWl3ZkcwS09RV3llRThiOCtUa3FBSE5td1JEcVlTK1JKVlFsRlRhcnNqS2c9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+              client-key-data: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFcEFJQkFBS0NBUUVBN2s0VzhzZmRrektJWFd3aTRnTnVEejlleGJucWpNWHJrSU5rdkUwaXBiaWp1dmxTClVNdnBnUWFDYW04MUdZemk4VjVpTEFYaEpuTkpwamdYMENDSzBlSmx1YTg0UTA1RmtYeVlaRTQyWmdFMS91b04KNHNSZWhUTk1GdXNGL3pLYmp5YlR3YjRWREM0TjFoNFRXb00yVlRUN2phT2xIRlhqN01DZjdLZzRRUXZJUkxvdAowaTVmSjY4TVN4RUxqcURjYmQ1WFVTR3lUY2xVZkwyT3JrMjlCK3M3ejgzUkZwRXRQRVZ0MytmOTFNWnQ1c0wwCjZyRVFENnh5ZFJPY2I2RDFrNnhaOEpMMmZlUkY0YUw4M0JOTFpDM1I0dDlnUWVzMmlTS1B5ZkhlV0xkMUNZN2wKaitkNXoyNm5TRUJDS3d2dGZmWmNrUGlHK21qSUE4dG8ycDR0dFFJREFRQUJBb0lCQURLNG9qL0lkSXZJL0tkTgp4ZHJ2T2ZTNjJ6UWdqeUNwVzZzbG5FSkw5S3pyTU1ZeUhPZ2ZqcktzclFOMGFndm5KY0tVQVRjM2hTV0c4azBUCnNWWFdKMVhtNXhudmhuMGs0ci9Ga2pYL1E2clFaU3E5ckhqd3JPR1Mrb1lDUGdPRVJRSGlGTDR1OUJIa2w0TlUKWVhBcGIxNFJhZDFLMEhESWd6dTRBQklCOS84MzFxRUtlcUQ4SHRXbzBGZTRLaTl2U0M4cjc1QlVJeUdtNFF2Mwp1WkFLR0h3TkZEeEJVWEY5YklYcUpvSlZtc0J5WlVZVmpFNmNvaGlyWG83NzIxcFNJZC9qeEF2YWlhVWJuNVJaCm1FTU1vZHE3cFBnWnByM3Q1anNwSnZHUFBUMW9EQ2V1T2tuQy81NnlRUnpnb2wreVBpSXZEK0F4VzF6QWNiUzQKK3czQnRUMENnWUVBK2VWbWZudjZhTHMvOXVwcDRRR0o1ekVXNmZ2SHU0TElGMnZKUjRBQUdiVkpGcXVlM3FRYgpjeHpyQktRWUk5RDdMRWFRMFhMdzhlY2MyNVlGNkVCNVRXYkVnUmVKOWFDeVdEenFoTWI1N1g4UGhjcnMxZnlFCit1VGl5MFBZQ09uczhVVnNhSkRmdFVuL09YcG9JbXR3YkZGTnI2aEdpT25wNWxTZWNHdkNGbXNDZ1lFQTlDQTEKM2pnU21kYkJ2bEpQY1ZOME81TVNFbVE5cCtyaUVDUld0aVVVQlFkNElYdW84Uzh1aVlUR2hLNGd4RHE0Y3psVgpQV1dqTjhYb1E4aGhaMXRwazJaZnlFT1pDeVhpZDZlKzNPWk5UbXJGWGJ3c1ZkTy9tMmQ2Q1FDbjhQeUtnazJOClB1amZuNk5lNE45Tld3b2dPOGFLcGtkdFRwTStMaXk3T2E1bWxGOENnWUVBbDRFS0M4TTBoUXlKY2pTYWJvMFYKUTNKU2x4ZEw5NVlKbzVGNG5YMndFZVlENHRlMzRQbVRuczI0ZXI3VjE5a2FmclJsbG1aZVIvcTdWekgwY09PdAo1MHhYOUlBRjUwSSsvaG9vZ01sMXV4UmVuOW53anFlakk4MWk1cU5DTmQxRkJ0MzFKTXc0cE51dy9mTUZjV0M3Cjd4KzN2cmlCMHY0bURidmR0d0ROMGZNQ2dZQUhtVmtUNmJycWZ2elk1OGNCU0ErK0t2M05CTUhHa0ZFcEgzaHoKZ3dQMGhCOEJLOUErY2JHSkpsRG5vR1AwdDc4MkZ2cklSbm1tS3Nyb0VUeTI4dWwrWlJsbUtuU0JIRlRJVkxoawpOK2NBSWVLeTRFQ2hDMDVUa0EwRWFyalBqNHpnTVhuTUU0T2lmSHRmbEpQYjJaelhQMzdoWGlmUTRsUjFLMzlJCmRGMU5FUUtCZ1FDcmdZeFllVkVvNFlEMGl5bEFOaW1WVWQxdVRlUnpDV01HTVZYVHphV3Q5MmdCV011Tmw3RWsKTHNPWmZhM2U0cEswT0VyTXBuQzc4TnRPWDZCdFhtNTRabm10dU1RUXZzR2FVTmY5M3RxZngyNWp2QnNQbEZQawpWd3JKc3RqYk0rUmxiVEVNdy9uMTJGcVNOeHdDbWtQUWwvNzRlbHA5YkIxVEYzUkR2WTdaOGc9PQotLS0tLUVORCBSU0EgUFJJVkFURSBLRVktLS0tLQo=
+
+    - name: Create Kubernetes Job
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: batch/v1
+          kind: Job
+          metadata:
+            name: syft
+            namespace: awx
+          spec:
+            template:
+              metadata:
+                labels:
+                  app: syft
+              spec:
+                containers:
+                - name: syft
+                  image: anchore/syft:latest
+                  args:
+                    - alpine
+                    - -o cyclonedx-json
+                restartPolicy: Never
+    - name: Wait till the Object is created
+      kubernetes.core.k8s_info:
+        kubeconfig: ~/.kube/config
+        kind: Job
+        wait: yes
+        name: pod-not-yet-created
+        namespace: awx
+        wait_sleep: 10
+        wait_timeout: 20
+    - name: Get log from pod
+      kubernetes.core.k8s_log:
+        kubeconfig: ~/.kube/config
+        kind: Job
+        name: "syft"
+        namespace: awx
+      register: log_output
+    - name: Print return information from the previous task
+      ansible.builtin.debug:
+        var: log_output
