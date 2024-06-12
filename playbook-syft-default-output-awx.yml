@@ -79,10 +79,7 @@
         name: "{{ pod_name }}"
         namespace: awx
       register: log_output
-    - name: Extract log content
-      set_fact:
-        log_content: "{{ log_output.log }}"
-    - name: Write log content to file
-      copy:
-        content: "{{ log_content | regex_replace('^.*?(\\{.*\\})$', '\\1') }}"
-        dest: "/tmp/SBOM-alpine.txt"
+    - name: Print return information from the previous task
+      ansible.builtin.debug:
+        var: log_output
+        verbosity: 2
