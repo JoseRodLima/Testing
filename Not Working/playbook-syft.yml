@@ -1,0 +1,25 @@
+---
+- name: Launch Kubernetes Job in Minikube
+  hosts: localhost
+  tasks:
+    - name: Create Kubernetes Job
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: batch/v1
+          kind: Job
+          metadata:
+            name: syft
+            namespace: awx
+            template:
+              metadata:
+                labels:
+                  app: syft
+              spec:
+                containers:
+                  - name: syft
+                    image: anchore/syft:latest
+                    args:
+                      - alpine
+                restartPolicy: Never
+        kubeconfig: /tmp/config
