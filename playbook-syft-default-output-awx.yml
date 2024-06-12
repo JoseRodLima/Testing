@@ -2,8 +2,6 @@
 - name: Launch Kubernetes Job in Minikube
   hosts: all
   tasks:
-    - name: Execute the command in remote shell; stdout goes to the specified file on the remote
-      ansible.builtin.shell: ansible-galaxy collection install community.general
     - name: Creating a new directory
       file:
         path: "~/.kube"
@@ -82,4 +80,3 @@
     - name: Print return information from the previous task
       ansible.builtin.debug:
         var: log_output
-        verbosity: 2
