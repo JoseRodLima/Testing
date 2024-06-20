@@ -34,7 +34,7 @@
 
     - name: Generate UUID to uniqueID variable
       set_fact:
-        uniqueID: "{{ my_string | to_uuid(namespace='11111111-2222-3333-4444-555555555555') }}"
+        uniqueID: "{{ ansible_date_time.iso8601 | to_uuid(namespace='11111111-2222-3333-4444-555555555555') }}"
 
     - name: Create Kubernetes Job
       kubernetes.core.k8s:
