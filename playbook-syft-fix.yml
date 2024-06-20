@@ -77,9 +77,10 @@
       kubernetes.core.k8s_log:
         kubeconfig: ~/.kube/config
         kind: Job
-        name: "syft-{{ UniqueID }}"
+        name: "syft-{{ uniqueID }}"
         namespace: awx
       register: log_output
+      
     - name: Print return information from the previous task
       ansible.builtin.debug:
         var: log_output
