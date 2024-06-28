@@ -89,6 +89,6 @@
       ansible.builtin.debug:
         var: uniqueID
         
-    - name: Print log output
-      ansible.builtin.debug:
-        var: log_lines
+    - name: Print log_lines
+      debug:
+        var: log_output.log_lines
