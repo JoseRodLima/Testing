@@ -56,7 +56,6 @@
                   image: anchore/syft:latest
                   args:
                     - "{{ image }}"
-                    - -o cyclonedx-json
                 restartPolicy: Never
     
     - name: Wait for Job completion
